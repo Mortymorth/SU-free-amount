@@ -1,0 +1,202 @@
+#include <stdio.h>
+
+int main(void)
+{
+
+  /* Generelle variable */
+  int udtype;
+  int hfribe = 36790;
+  int mfribe = 19114;
+  int vufribe = 12071;
+  int uufribe = 7653;
+  int indkomst; /*Indtastet indkomst for måneder helt uden for uddannelse*/
+  int indm; /*Måneder indskrevet uden SU*/
+  int um; /*Måneder helt uden for uddannelse*/
+  char valg; /* Ja eller nej*/
+
+  /* VU-variable */
+  int vusum; /*Måneder med SU til videregående uddannelse*/
+  int vuallem = vusum+indm+um; /*Alle måneder videregående uddannelse*/
+
+  /* UU-variable */
+  int uusum; /*Måneder med SU til ungdomsuddannelse*/
+  int uuallem = vusum+indm+um; /*Alle måneder ungdomsuddannelse*/
+
+
+  printf("\nHER KAN DU FINDE UD AF, HVOR MEGET DU MÅ TJENE VED SIDEN AF DIN SU\n\n");
+  printf("Hvor meget man må tjene ved siden af sin SU udregnes på årsbasis.\n\n");
+  printf("Beløbets størrelse afhænger af 3 ting:\n 1. hvor mange af årets måneder man har været indskrevet på uddannelse,\n 2. hvor mange måneder man har modtaget SU, og \n 3. hvilke typer af uddannelse, man har været indskrevet på og moddtaget SU til.\n\n\n");
+
+  printf("Har du været indskrevet på\n 1. Videregående uddannelse (tast 1)\n 2. Ungdomsuddannelse (tast 2), eller\n 3. Begge dele (tast3)\n");
+
+  scanf("%d", &udtype);
+
+  if (udtype == 0 || udtype > 3)
+  {
+    printf("\nDu skal vælge mulighed 1-3\n");
+}
+
+/* Vidergående uddannelse */
+  if (udtype == 1)
+    {
+      printf("\nHvor mange måneder har du modtaget SU til din videregående uddannelse?\n");
+      scanf("%d", &vusum);
+        if (vusum == 12)
+          {
+            printf("\nDu må tjene %d ved siden af din SU.\n", 12 * vufribe);
+          return 0;
+        }
+
+      printf("\nHvor mange måneder har du været indskrevet på videregående uddannelse, uden at modtage SU?\n");
+      scanf("%d", &indm);
+        if (vusum + indm == 12)
+          {
+            printf("\nDu må tjene %d ved siden af din SU.\n", (vusum * vufribe) + (indm * mfribe));
+            return 0;
+          }
+      printf("\nHvor mange måneder har du været helt uden for uddannelse?\n");
+      scanf("%d", &um);
+
+        while (vusum+indm+um != 12)
+          {
+            printf("\nDer er 12 måneder på et år.\n\n");
+            printf("\nHvor mange måneder har du modtaget SU til din videregående uddannelse?\n");
+            scanf("%d", &vusum);
+            printf("\nHvor mange måneder har du været indskrevet på videregående uddannelse, uden at modtage SU?\n");
+            scanf("%d", &indm);
+            printf("\nHvor mange måneder har du været helt uden for uddannelse?\n");
+            scanf("%d", &um);
+          }
+
+      if (um == 0)
+        {
+          printf("\nDu må tjene %d ved siden af din SU\n\n", (vusum*vufribe)+(indm*mfribe)+(um*hfribe));
+          return 0;
+        }
+      if (um == 12)
+        {
+          printf("Da du har været helt uden for uddannelse hele året, er der intet maksimum for, hvad du må tjene.");
+          return 0;
+        }
+      if (um <=11 && um >0)
+        {
+          printf("\nDa du har været helt uden for uddannelse i nogle af årets måneder, ser vi i nogle tilfælde bort fra din indkomst i disse måneder, hvis det kommer dig til gode.\n\n");
+          printf("Har du været helt uden for uddannelse i mindst 4 sammenhængende måneder? ('j' for ja og 'n' for nej.)\n");
+
+          do {
+            scanf(" %c", &valg);
+          } while (valg != 'j' && valg != 'n');
+
+          if (valg == 'j')
+            {
+              printf("\nHvor meget har du tjent i de måneder, du var helt uden for uddannelse?");
+              scanf("%d", &indkomst);
+
+              if (indkomst < um*hfribe)
+                {
+                  printf("\nDu må tjene %d ved siden af din SU hele året.\n\n", (vusum*vufribe)+(indm*mfribe)+(um*hfribe));
+
+                }
+
+              else
+
+              {
+                printf("\nDu må tjene %d ved siden af din SU, i de måneder, du var indskrevet på uddannelse.", (vusum*vufribe)+(indm*mfribe));
+
+              }
+            }
+          if (valg == 'n')
+            {
+              printf("Har du været helt uden for uddannelse i januar eller december?\n");
+
+              do {
+                scanf(" %c", &valg);
+              } while (valg != 'j' && valg != 'n');
+
+              if (valg == 'j')
+                {
+                  printf("\nHvor meget har du tjent i de måneder, du var helt uden for uddannelse?");
+                  scanf("%d", &indkomst);
+
+                  if (indkomst < um*hfribe)
+                    {
+                      printf("\nDu må tjene %d ved siden af din SU hele året.\n\n", (vusum*vufribe)+(indm*mfribe)+(um*hfribe));
+
+                    }
+
+                  else
+
+                  {
+                    printf("\nDu må tjene %d ved siden af din SU, i de måneder, du var indskrevet på uddannelse.", (vusum*vufribe)+(indm*mfribe));
+
+                  }
+
+
+            }
+          }
+    }}
+
+
+/* Ungdomsuddannelse */
+
+  if (udtype == 2)
+      {
+        printf("\nHvor mange måneder har du modtaget SU til din ungdomsuddannelse?\n");
+        scanf("%d", &uusum);
+        if (uusum != 12)
+        {
+        printf("\nHvor mange måneder har du været indskrevet på ungdomsuddannelse, uden at modtage SU?\n");
+        scanf("%d", &indm);
+        if (uusum+indm != 12)
+        {
+        printf("\nHvor mange måneder har du været helt uden for uddannelse?\n");
+        scanf("%d", &um);
+        }
+        }
+          while (uusum+indm+um != 12)
+            {
+              printf("\nAntallet af måneder skal være lig 12!!!\n\n");
+              printf("\nHvor mange måneder har du modtaget SU til din ungdomsuddannelse?\n");
+              scanf("%d", &vusum);
+              printf("\nHvor mange måneder har du været indskrevet på ungdomsuddannelse, uden at modtage SU?\n");
+              scanf("%d", &indm);
+              printf("\nHvor mange måneder har du været helt uden for uddannelse?\n");
+              scanf("%d", &um);
+            }
+        if (um == 0)
+          {
+            printf("\nDu må tjene %d ved siden af din SU\n\n", (uusum*vufribe)+(indm*mfribe)+(um*hfribe));
+          }
+        if (um == 12)
+          {
+            printf("Da du har været helt uden for uddannelse hele året, er der intet maksimum for, hvad du må tjene.");
+          }
+        if (um <=11 && um >0)
+          {
+            printf("\nDa du har været helt uden for uddannelse i nogle af årets måneder, ser vi i nogle tilfælde bort fra din indkomst i disse måneder, hvis det kommer dig til gode.\n\n");
+            printf("Det gør vi hvis du har tjent over %d kr. i de måneder, du var helt uden for uddannelse, \nsamtidig med, at du enten har været helt uden for uddannelse i (1) sammenhængende 4 måneder eller (2) har været helt uden for uddannelse i januar eller december.\n\n", hfribe);
+            printf("Hvis du lever op til (1) eller (2), beder vi dig indtaste din indkomst for de måneder, du var helt uden for uddannelse i, rundet op til et helt tal\n");
+            scanf("%d", &indkomst);
+
+            if(indkomst > um*hfribe)
+              {
+                printf("Du må tjene %d kr. i de måneder, du var indskrevet på uddannelse.\n", (uusum*vufribe)+(indm*mfribe));
+              }
+            if(indkomst < um*hfribe)
+              {
+                printf("Du må tjene %d kr. hele året ved siden af din SU.\n", (uusum*vufribe)+(indm*mfribe)+(um*hfribe));
+              }
+
+          }
+
+      }
+
+/* Kombineret uddannelse */
+  if (udtype == 3)
+      {
+        printf("Begge dele\n");
+
+        }
+
+return 0;
+  }
